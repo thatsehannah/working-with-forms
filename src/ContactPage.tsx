@@ -8,7 +8,19 @@ type Contact = {
 };
 
 export const ContactPage = () => {
+  const [contact, setContact] = useState<Contact>({
+    name: '',
+    email: '',
+    reason: '',
+    notes: '',
+  });
+
   const fieldStyle = 'flex flex-col mb-2';
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('Submitted details:', contact);
+  };
 
   return (
     <div className='flex flex-col py-10 max-w-md mx-auto'>
@@ -16,12 +28,14 @@ export const ContactPage = () => {
       <p className='mb-3'>
         If you enter you details we'll get back to you as soon as we can.
       </p>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={fieldStyle}>
           <label htmlFor='name'>Your name</label>
           <input
             type='text'
             id='name'
+            value={contact.name}
+            onChange={(e) => setContact({ ...contact, name: e.target.value })}
           />
         </div>
         <div className={fieldStyle}>
@@ -29,6 +43,8 @@ export const ContactPage = () => {
           <input
             type='email'
             id='email'
+            value={contact.email}
+            onChange={(e) => setContact({ ...contact, email: e.target.value })}
           />
         </div>
         <div className={fieldStyle}>
@@ -36,6 +52,8 @@ export const ContactPage = () => {
           <select
             name=''
             id='reason'
+            value={contact.reason}
+            onChange={(e) => setContact({ ...contact, reason: e.target.value })}
           >
             <option value=''></option>
             <option value='Support'>Support</option>
@@ -45,7 +63,11 @@ export const ContactPage = () => {
         </div>
         <div className={fieldStyle}>
           <label htmlFor='notes'>Additional notes</label>
-          <textarea id='notes'></textarea>
+          <textarea
+            id='notes'
+            value={contact.notes}
+            onChange={(e) => setContact({ ...contact, notes: e.target.value })}
+          />
         </div>
         <div>
           <button
