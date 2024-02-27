@@ -1,7 +1,11 @@
 import { useParams } from 'react-router-dom';
 
+type Params = {
+  name: string;
+};
+
 export const ThankYouPage = () => {
-  const { name } = useParams<{ name: string }>();
+  const { name } = useParams<Params>();
 
   return (
     <div className='flex flex-col py-10 max-w-md mx-auto'>
