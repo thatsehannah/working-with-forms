@@ -1,4 +1,5 @@
-import { Form, ActionFunctionArgs, redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 type Contact = {
   name: string;
@@ -7,21 +8,15 @@ type Contact = {
   notes: string;
 };
 
-export const contactPageAction = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const contact = {
-    name: formData.get('name'),
-    email: formData.get('email'),
-    reason: formData.get('reason'),
-    notes: formData.get('notes'),
-  } as Contact;
-  console.log('Submitted details:', contact);
-
-  return redirect(`/thank-you/${formData.get('name')}`);
-};
-
 export const ContactPage = () => {
+  const { register, handleSubmit } = useForm<Contact>();
+  const navigate = useNavigate();
   const fieldStyle = 'flex flex-col mb-2';
+
+  const onSubmit = (contact: Contact) => {
+    console.log('Submitted details:', contact);
+    navigate(`/thank-you/${contact.name}`);
+  };
 
   return (
     <div className='flex flex-col py-10 max-w-md mx-auto'>
@@ -29,13 +24,13 @@ export const ContactPage = () => {
       <p className='mb-3'>
         If you enter your details, we'll get back to you as soon as we can.
       </p>
-      <Form method='post'>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className={fieldStyle}>
           <label htmlFor='name'>Your name</label>
           <input
             type='text'
             id='name'
-            name='name'
+            {...register('name')}
             required
           />
         </div>
@@ -44,7 +39,7 @@ export const ContactPage = () => {
           <input
             type='email'
             id='email'
-            name='email'
+            {...register('email')}
             required
             pattern='\S+@\S+\.\S+'
           />
@@ -52,7 +47,7 @@ export const ContactPage = () => {
         <div className={fieldStyle}>
           <label htmlFor='reason'>Reason you need to contact us</label>
           <select
-            name='reason'
+            {...register('reason')}
             id='reason'
             required
           >
@@ -66,7 +61,7 @@ export const ContactPage = () => {
           <label htmlFor='notes'>Additional notes</label>
           <textarea
             id='notes'
-            name='notes'
+            {...register('notes')}
           />
         </div>
         <div>
@@ -77,7 +72,7 @@ export const ContactPage = () => {
             Submit
           </button>
         </div>
-      </Form>
+      </form>
     </div>
   );
 };
