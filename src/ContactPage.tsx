@@ -27,7 +27,7 @@ export const ContactPage = () => {
     <div className='flex flex-col py-10 max-w-md mx-auto'>
       <h2 className='text-3xl font-bold underline mb-3'>Contact Us</h2>
       <p className='mb-3'>
-        If you enter you details we'll get back to you as soon as we can.
+        If you enter your details, we'll get back to you as soon as we can.
       </p>
       <Form method='post'>
         <div className={fieldStyle}>
@@ -36,6 +36,7 @@ export const ContactPage = () => {
             type='text'
             id='name'
             name='name'
+            required
           />
         </div>
         <div className={fieldStyle}>
@@ -44,6 +45,8 @@ export const ContactPage = () => {
             type='email'
             id='email'
             name='email'
+            required
+            pattern='\S+@\S+\.\S+'
           />
         </div>
         <div className={fieldStyle}>
@@ -51,6 +54,7 @@ export const ContactPage = () => {
           <select
             name='reason'
             id='reason'
+            required
           >
             <option value=''></option>
             <option value='Support'>Support</option>
